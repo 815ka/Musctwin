@@ -18,7 +18,7 @@ export default function ResultPage() {
       setError('მომხმარებლის პარამეტრები მიუწვდომელია');
       return;
     }
-    const filePath = `/tracks/${mood}_${activity}_${vibe}.mp3`;
+    const filePath = `../public/tracks/${mood}_${activity}_${vibe}.mp3`;
     setAudioUrl(filePath);
   }, [mood, activity, vibe]);
 
