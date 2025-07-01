@@ -1,4 +1,4 @@
-// ✅ Enhanced /result.tsx with audio generation fix, modern UI and library styling
+// ✅ MVP: result.tsx – local MP3 based on mood + activity + vibe
 
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -10,26 +10,18 @@ export default function ResultPage() {
   const { mood, activity, vibe } = router.query;
 
   const [audioUrl, setAudioUrl] = useState('');
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [savedTracks, setSavedTracks] = useState([]);
 
-  // ✅ Simulate audio generation
   useEffect(() => {
-    if (!mood || !activity || !vibe) return;
-    setLoading(true);
-    setTimeout(() => {
-      if (Math.random() > 0.2) {
-        setAudioUrl('/sample.mp3');
-        setError('');
-      } else {
-        setError('🎵 ვერ მოხერხდა გენერაცია. სცადე ხელახლა');
-      }
-      setLoading(false);
-    }, 2000);
+    if (!mood || !activity || !vibe) {
+      setError('მომხმარებლის პარამეტრები მიუწვდომელია');
+      return;
+    }
+    const filePath = `/tracks/${mood}_${activity}_${vibe}.mp3`;
+    setAudioUrl(filePath);
   }, [mood, activity, vibe]);
 
-  // ✅ Save track
   const saveTrack = async () => {
     const user = auth.currentUser;
     if (!user || !audioUrl) return alert('შესვლა აუცილებელია');
@@ -48,7 +40,6 @@ export default function ResultPage() {
     }
   };
 
-  // ✅ Load saved tracks for library display
   const loadLibrary = async () => {
     const user = auth.currentUser;
     if (!user) return;
@@ -59,9 +50,8 @@ export default function ResultPage() {
 
   return (
     <div className="p-6 max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6 text-center">შენი AI მუსიკა</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">🎵 შენი მუსიკა</h1>
 
-      {loading && <p className="text-center">⏳ გენერაცია მიმდინარეობს...</p>}
       {error && <p className="text-red-500 text-center">{error}</p>}
 
       {audioUrl && (
@@ -74,7 +64,7 @@ export default function ResultPage() {
               onClick={saveTrack}
               className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-full transition"
             >
-              💾 შეინახე და გააზიარე
+              💾 შეინახე
             </button>
             <button
               onClick={loadLibrary}
@@ -84,7 +74,6 @@ export default function ResultPage() {
         </div>
       )}
 
-      {/* ✅ My Library */}
       {savedTracks.length > 0 && (
         <div className="mt-10">
           <h2 className="text-xl font-semibold mb-4">📁 შენახული ტრეკები</h2>
