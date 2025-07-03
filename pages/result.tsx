@@ -21,7 +21,7 @@ export default function ResultPage() {
   }, [mood, activity, vibe]);
 
   const saveTrack = async () => {
-    const user = auth.currentUser;
+    const user = firebaseAuth.currentUser;
     if (!user || !audioUrl) return alert('შესვლა სავალდებულოა');
     try {
       await addDoc(collection(db, 'users', user.uid, 'tracks'), {
@@ -39,7 +39,7 @@ export default function ResultPage() {
   };
 
   const loadLibrary = async () => {
-    const user = auth.currentUser;
+    const user = firebaseAuth.currentUser;
     if (!user) return;
     const querySnapshot = await getDocs(collection(db, 'users', user.uid, 'tracks'));
     const list = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
