@@ -12,12 +12,16 @@ const firebaseConfig = {
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
 };
 
+// თავიდან თავიდან Initialization
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-const auth = getAuth(app);
+
+// 🟡 აქ პრობლემა იყო: auth ორჯერ გამოცხადდა
+const _auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 const db = getFirestore(app);
 
-export { auth, provider, db };
+export { _auth as auth, provider, db };
+
 
 // FILE: /pages/result.tsx
 
