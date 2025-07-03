@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { auth, db } from '../lib/firebase';
+import { firebaseAuth, db } from '../lib/firebase';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
 
 export default function ResultPage() {
