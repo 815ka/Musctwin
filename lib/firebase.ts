@@ -26,7 +26,7 @@ export { _auth as auth, provider, db };
 // FILE: /pages/result.tsx
 
 import { collection, addDoc } from 'firebase/firestore';
-import { auth, db } from '../lib/firebase';
+import { _auth, db } from '../lib/firebase';
 
 const saveTrack = async () => {
   const user = auth.currentUser;
